@@ -36,31 +36,36 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
         list_label[origin.getId()].setCost(0);
         tas.insert(list_label[origin.getId()]);
+        notifyOriginProcessed(origin);
         boolean end = false;
         
         // Itérations
         while (!tas.isEmpty() && !end) {
         	Label label = tas.findMin();
+        	
         	tas.remove(label);
         	label.setMarked();
+        	notifyNodeMarked(label.getNode());
         	
         	// Si la destination est atteinte on s'arrête
         	if (label.getNode() == destination) {
         		end = true;
+        		notifyDestinationReached(destination);
+        		continue;
         	}
-        	
+  
         	for (Arc arc: label.getNode().getSuccessors()) {
-        		
+
         		// Vérification si on peut vraiment prendre cet arc
         		if (!data.isAllowed(arc)) {
         			continue;
         		}
         		
         		// On récupère le label du successeur 
-        		Label label_suc = list_label[list_node.indexOf(arc.getDestination())] ;
-        		
+        		Label label_suc = list_label[arc.getDestination().getId()] ;
+        		notifyNodeReached(label_suc.getNode());
         		if (!label_suc.isMarked()) {
-        			float new_cost = Math.min(label_suc.getCost(), label.getCost() + arc.getLength());
+        			float new_cost = Math.min(label_suc.getCost(), label.getCost() + (float) data.getCost(arc));
         			
         			if (new_cost < label_suc.getCost()) {
         				label_suc.setCost(new_cost);
@@ -69,6 +74,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         			}
         		}
         	}
+        	
         	
         }
         
@@ -85,7 +91,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	}
         	// On inverse la liste car elle est à l'envers
         	Collections.reverse(arcs);
-        	// On renvoie la solution 
+        	// On renvoie la solution
         	solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, arcs));
         }
         
