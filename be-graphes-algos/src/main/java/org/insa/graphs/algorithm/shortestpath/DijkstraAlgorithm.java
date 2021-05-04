@@ -32,7 +32,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         BinaryHeap<Label> tas = new BinaryHeap<Label>();
         
         for (Node node: list_node) {
-        	list_label[node.getId()] = new Label(node, false, Float.POSITIVE_INFINITY, null);
+        	list_label[node.getId()] = create_Label(node, false, Float.POSITIVE_INFINITY, null, data);
         }
         list_label[origin.getId()].setCost(0);
         tas.insert(list_label[origin.getId()]);
@@ -96,6 +96,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
         
         return solution;
+    }
+   
+    protected Label create_Label(Node node, boolean mark, float cost, Arc father, ShortestPathData data) {
+    	return new Label(node, false, Float.POSITIVE_INFINITY, null);
     }
 
 }

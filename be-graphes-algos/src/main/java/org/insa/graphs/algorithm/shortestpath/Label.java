@@ -19,6 +19,9 @@ public class Label implements Comparable<Label> {
    public float getCost() {
 	   return this.cost;
    }
+   public float getTotalCost() {
+	   return this.cost;
+   }
    public void setCost(float cost) {
 	   this.cost = cost;
    }
@@ -40,9 +43,9 @@ public class Label implements Comparable<Label> {
    
    public int compareTo(Label autre) {
 	   int resultat;
-	   if(this.getCost() < autre.getCost()) {
+	   if(this.getTotalCost() < autre.getTotalCost()) {
 		   resultat = -1;
-	   }else if (this.getCost() == autre.getCost()) {
+	   }else if (this.getTotalCost() == autre.getTotalCost()) {
 		   resultat = 0;
 	   } else {
 		   resultat = 1;
