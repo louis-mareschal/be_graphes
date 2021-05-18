@@ -23,7 +23,11 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         int size = graph.size();
         java.util.List<Node> list_node = graph.getNodes();
         // TODO:
-        
+        if (origin == destination) {
+        	ArrayList<Arc> arcs = new ArrayList<Arc>();
+        	solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, arcs));
+        	return solution;
+        }
         // Initialisation :
         
         // tableau de labels
@@ -73,9 +77,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         				label_suc.setFather(arc);
         			}
         		}
-        	}
-        	
-        	
+        	} 	
         }
         
         // on test si la destination a ou non un prédécesseur
@@ -94,7 +96,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	// On renvoie la solution
         	solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, arcs));
         }
-        
         return solution;
     }
    

@@ -70,5 +70,15 @@ public class ShortestPathSolution extends AbstractSolution {
         info += " in " + getSolvingTime().getSeconds() + " seconds.";
         return info;
     }
+    /**
+     * @return The cost of this solution, if any.
+     */
+    public int getCost() {
+    	double cost = 0;
+        for (Arc arc: getPath().getArcs()) {
+            cost += getInputData().getCost(arc);
+        }
+        return (int) cost;
+    }
 
 }
