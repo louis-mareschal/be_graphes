@@ -67,21 +67,17 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		
         		// On récupère le label du successeur 
         		Label label_suc = list_label[arc.getDestination().getId()] ;
-        		Arc arc_temp; // J'ai dû faire ça pour mon projet au choix
         		notifyNodeReached(label_suc.getNode());
         		if (!label_suc.isMarked()) {
-        			arc_temp = label_suc.getFather();
-        			label_suc.setFather(arc);
-        			float new_cost = Math.min(label_suc.getCost(), label.getCost() + (float) data.getCost(arc));
+        			float new_cost = Math.min(label_suc.getCost(), label.getCost() + getCostArc(arc));
         			
         			if (new_cost < label_suc.getCost()) {
+        				label_suc.setFather(arc);
         				label_suc.setCost(new_cost);
         				tas.insert(label_suc);
-        			} else {
-        				label_suc.setFather(arc_temp);
         			}
-        		}
-        	} 	
+        		} 	
+        	}
         }
         
         // on test si la destination a ou non un prédécesseur
@@ -105,6 +101,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
    
     protected Label create_Label(Node node, boolean mark, float cost, Arc father, ShortestPathData data) {
     	return new Label(node, false, Float.POSITIVE_INFINITY, null);
+    }
+    protected float getCostArc(Arc arc) {
+    	return (float) data.getCost(arc);
     }
 
 }
